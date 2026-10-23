@@ -1330,6 +1330,8 @@ const F = (k, l, t = 'text', o) => ({ k, l, t, o });
 const L = (k, l, cols, x = {}) => ({ k, l, cols, ...x });
 const ALL = ['actor', 'assistant', 'team'], AA = ['actor', 'assistant'], AT = ['assistant', 'team'];
 const sec = (id, t, d, roles, body) => ({ id, t, d, roles, vals: body.vals || [], lists: body.lists || [], extra: body.extra });
+// The four platforms most people use; every platform column picks from these.
+const PLATFORMS = ['微博', '抖音', '小红书', '哔哩哔哩'];
 const OWN = {
   st0: { desc: '把收到的本子并排比较，记录背调与档期，最后由明星本人确认接不接。', roles: AA, secs: [
     sec('compare', '横向对比剧本', '同时收到几个本子时，先并排比一比角色分量、主创和匹配度。', AA, { lists: [L('scripts', '剧本', [F('title', '剧名'), F('role', '角色'), F('weight', '戏份'), F('team', '主创 / 平台'), F('fit', '匹配度', 'select', ['高', '中', '低', '待评估']), F('note', '备注')])] }),
@@ -1362,11 +1364,12 @@ const OWN = {
   st4: { desc: '对照当天通告，记录现场重点；把会议纪要拆成有负责人的任务。', roles: ALL, secs: [
     sec('call', '今日准备', '先看通告，再写下今天的重点和现场反馈。', ALL, { vals: [F('focus', '今天的重点', 'area'), F('feedback', '现场反馈', 'area')], extra: 'callday' }),
     sec('tasks', '纪要拆任务', '贴入会议纪要，拆成有负责人、截止日期的任务，再逐条发布到通告本。', AT.concat('actor'), { vals: [F('minutes', '会议纪要', 'area')], lists: [L('tasks', '任务', [F('title', '任务'), F('owner', '负责人', 'member'), F('due', '截止', 'date'), F('note', '说明')], { toTask: true })] }),
-    sec('cal', '内容日历', '一周内容排期，谁负责、发在哪里。', AT, { lists: [L('posts', '内容', [F('date', '日期', 'date'), F('platform', '平台'), F('content', '内容'), F('owner', '负责人', 'member')])] }),
+    sec('cal', '内容日历', '一周内容排期，谁负责、发在哪里。', AT, { lists: [L('posts', '内容', [F('date', '日期', 'date'), F('platform', '平台', 'select', PLATFORMS), F('content', '内容'), F('owner', '负责人', 'member')])] }),
     sec('faq', '常见问题与口径', '探班、采访常被问到的问题，统一口径。', AT, { lists: [L('qa', '问答', [F('q', '问题'), F('a', '口径')])] })
   ] },
   st5: { desc: '整理留言与反馈，回复先审核再发布，留意舆情信号。', roles: ALL, secs: [
-    sec('cmt', '留言分类', '按话题和情绪分类，标出需要人工关注的。', AT, { lists: [L('items', '留言', [F('platform', '平台'), F('content', '留言'), F('type', '类型', 'select', ['剧情讨论', '表演夸奖', '求物料', '提问', '负面', '越界'])  , F('action', '处理')])] }),
+    sec('plats', '各平台运营', '微博、抖音、小红书、哔哩哔哩，账号、粉丝、调性和更新节奏放在一起看。', ALL, { lists: [L('plats', '平台', [F('platform', '平台', 'select', PLATFORMS), F('account', '账号'), F('fans', '粉丝数'), F('tone', '内容调性'), F('cadence', '更新节奏'), F('owner', '负责人', 'member')], { seed: PLATFORMS.map(p => ({ platform: p })) })] }),
+    sec('cmt', '留言分类', '按话题和情绪分类，标出需要人工关注的。', AT, { lists: [L('items', '留言', [F('platform', '平台', 'select', PLATFORMS), F('content', '留言'), F('type', '类型', 'select', ['剧情讨论', '表演夸奖', '求物料', '提问', '负面', '越界'])  , F('action', '处理')])] }),
     sec('reply', '回复审核', '回复草稿先过审核；本人亲自回的标出来。', ALL, { lists: [L('replies', '回复', [F('to', '回复对象'), F('text', '回复草稿'), F('status', '状态', 'select', ['草稿', '待本人确认', '已确认', '不回复'])])] }),
     sec('rep', '运营反馈周报', '本周观众最关心什么，下一步怎么做。', AT, { vals: [F('topics', '热议话题', 'area'), F('sentiment', '情绪分布'), F('actions', '建议动作', 'area')] }),
     sec('sig', '舆情信号', '先核实，再判断要不要处理。', ALL, { lists: [L('signals', '信号', [F('signal', '内容'), F('level', '程度', 'select', ['低', '中', '高']), F('handle', '处理方式')])] })
@@ -1395,7 +1398,7 @@ const OWN = {
   ] },
   fans: { icon: '💬', name: '粉丝与社群', sub: '后援会 · 平台 · 内容', desc: '真诚对待粉丝，也守住边界。', roles: ALL, img: '28_fans', secs: [
     sec('groups', '后援会与对接人', '各平台的组织和对接方式。', AT.concat('actor'), { lists: [L('groups', '组织', [F('name', '名称'), F('platform', '平台'), F('contact', '对接人'), F('note', '注意事项')])] }),
-    sec('plan', '粉丝内容计划', '谁发、发在哪、谁审核。', ALL, { lists: [L('plan', '内容', [F('date', '日期', 'date'), F('platform', '平台'), F('content', '内容'), F('approver', '审核人', 'member')])] }),
+    sec('plan', '粉丝内容计划', '谁发、发在哪、谁审核。', ALL, { lists: [L('plan', '内容', [F('date', '日期', 'date'), F('platform', '平台', 'select', PLATFORMS), F('content', '内容'), F('approver', '审核人', 'member')])] }),
     sec('bounds', '边界与提醒', '哪些行为要提醒，怎么引导。', ALL, { vals: [F('rules', '边界说明', 'area')] })
   ] },
   crisis: { icon: '🛡', name: '危机公关与舆情', sub: '核实 · 研判 · 回应', desc: '先核实，再回应。时间线和证据都留档。', roles: ALL, img: '27_comments', secs: [
@@ -1454,7 +1457,7 @@ function flush() {
 function oSide() { $('#side').innerHTML = ''; }
 function modeSwitch() { return embedded ? `<div class="mode-switch" role="group" aria-label="切换"><button class="${ownMode ? 'on' : ''}" data-o="own">我的工作区</button><button class="${ownMode ? '' : 'on'}" data-o="demo">参考示例</button></div>` : ''; }
 const groupOf = k => k === 'home' ? 'today' : k[0] === 's' && k[1] === 't' ? 'journey' : CAREER.includes(k) ? 'career' : 'life';
-const CAT_BASE = (LOCAL && LOCAL.catBase) || '../';
+const CAT_BASE = LOCAL && typeof LOCAL.catBase === 'string' ? LOCAL.catBase : '../';
 // One cat per page: the viewer's own cat on the overview, then one cat for each area of the workbench.
 const catImg = k => CAT_BASE + (!k || k === 'home' ? (({ assistant: 'cat-assistant.png', team: 'cat-team.png' })[role()] || 'cat-mascot.png') : ({ journey: 'cat-lounge.png', career: 'cat-team.png', life: 'cat-mascot.png' })[groupOf(k)]);
 const sentence = t => String(t).toLowerCase().replace(/^./, c => c.toUpperCase());
@@ -1638,7 +1641,7 @@ const SEC_PROP = {
   'st2.scene': 'pulse', 'st2.handling': 'mask', 'st2.dance': 'music', 'st2.train': 'dumbbell',
   'st3.look': 'shirt', 'st3.board': 'film', 'st3.move': 'walk', 'st3.comm': 'chat',
   'st4.call': 'clipboard', 'st4.tasks': 'list', 'st4.cal': 'calendar', 'st4.faq': 'help',
-  'st5.cmt': 'bubble', 'st5.reply': 'reply', 'st5.rep': 'bars', 'st5.sig': 'alert',
+  'st5.plats': 'megaphone', 'st5.cmt': 'bubble', 'st5.reply': 'reply', 'st5.rep': 'bars', 'st5.sig': 'alert',
   'st6.brand': 'shield', 'st6.rights': 'key', 'st6.scope': 'map', 'st6.lawyer': 'scale', 'st6.decide': 'hand',
   'st7.look': 'trophy', 'st7.data': 'bars', 'st7.self': 'mirror', 'st7.next': 'arrow',
   'portfolio.works': 'reel', 'portfolio.direction': 'compass', 'portfolio.goals': 'target', 'deals.contracts': 'contract', 'deals.offers': 'mail',
@@ -1674,9 +1677,9 @@ const AIROWS = {
   'st3.looks': () => D.looks.map(l => ({ scene: l.sc, look: l.k, color: '', mood: l.mood })),
   'st3.shots': () => D.shots.map(x => ({ no: String(x.no), size: x.size, dur: String(x.dur), cam: x.cam, act: x.act, line: x.line || '' })),
   'st4.tasks': () => D.tasks.map(x => ({ title: x.t, due: '', note: x.who + ' · ' + x.due })),
-  'st4.posts': () => D.week.flatMap(w => w.ev.map(e => ({ date: '', platform: w.d, content: e[1] }))).slice(0, 10),
+  'st4.posts': () => D.week.flatMap(w => w.ev.map(e => ({ date: '', content: w.d + ' · ' + e[1] }))).slice(0, 10).map((r, i) => ({ ...r, platform: PLATFORMS[i % 4] })),
   'st4.qa': () => D.faq.map(f => ({ q: f.q, a: f.a })),
-  'st5.items': () => D.comments.slice(0, 8).map(c => ({ platform: '微博', content: c.t, type: { work: '剧情讨论', love: '表演夸奖', trip: '提问', advice: '负面', risk: '越界' }[c.c] || '提问', action: '' })),
+  'st5.items': () => D.comments.slice(0, 8).map((c, i) => ({ platform: PLATFORMS[i % 4], content: c.t, type: { work: '剧情讨论', love: '表演夸奖', trip: '提问', advice: '负面', risk: '越界' }[c.c] || '提问', action: '' })),
   'st5.replies': () => Object.entries(D.replies).slice(0, 4).map(([k, v]) => ({ to: { work: '剧情讨论', love: '关心', trip: '行程询问', advice: '建议' }[k] || k, text: v.warm, status: '待本人确认' })),
   'st5.signals': () => D.signals.map(x => ({ signal: x.t + '：' + x.d, level: x.lv === 'bad' ? '高' : '中', handle: x.s })),
   'st6.checks': () => D.sources.map(x => ({ item: x.t, source: x.from, status: x.tag.includes('已核验') ? '已核验' : x.tag.includes('待') ? '待核验' : '传闻' })),
@@ -1688,7 +1691,8 @@ const AIROWS = {
   'deals.items': () => D.deals.contracts.map(c => ({ brand: c.n, type: ['影视', '代言'].includes(c.type) ? c.type : '其他', exclusive: '', until: /^\d{4}-\d{2}-\d{2}$/.test(c.end) ? c.end : '', status: '已签' })),
   'deals.offers': () => D.deals.offers.map(o => ({ brand: o.n, product: o.cat + ' · ' + o.role, risk: o.verdict[1], decision: o.verdict[0] === 'ok' ? '有条件接' : '婉拒' })),
   'fans.groups': () => D.fans.clubs.map(c => ({ name: c.n, platform: c.tag, contact: c.lead, note: c.last })),
-  'fans.plan': () => D.fans.platforms.map(x => ({ date: '', platform: x.n, content: x.best })),
+  'fans.plan': () => D.fans.platforms.map(x => ({ date: '', platform: x.n === 'B站' ? '哔哩哔哩' : x.n, content: x.best })),
+  'st5.plats': () => D.fans.platforms.map(x => ({ platform: x.n === 'B站' ? '哔哩哔哩' : x.n, account: '林知夏工作室', fans: x.fans, tone: x.tone, cadence: x.cadence })),
   'crisis.timeline': () => D.crisis.event.timeline.map(t => ({ time: t[0], event: t[1] + ' · ' + t[2] })),
   'charity.items': () => D.charity.projects.map(x => ({ name: x.n, org: x.org, verify: '待核验', disclose: '每季度', owner: '' })),
   'brief.items': () => D.brief2.items.map(x => ({ title: x.t, field: x.f, source: x.src, status: x.tag.includes('已核验') ? '已核验' : x.tag.includes('待') ? '待核验' : '传闻', action: x.act || '' })),
@@ -1714,15 +1718,21 @@ function aiFillList(base) {
   if (aiBusy) return; const [k, lk] = base.split('|'), gen = aiRowsFor(k, lk); if (!gen) return;
   const { l } = listDef(k, lk), rows = pg(k).lists[lk] = pg(k).lists[lk] || [], keys = new Set(l.cols.map(c => c.k));
   let add; try { add = gen().map(r => Object.fromEntries(Object.entries(r).filter(([key, v]) => keys.has(key) && v !== '' && v != null).map(([key, v]) => [key, String(v).slice(0, 4000)]))); } catch { add = []; }
-  const room = 60 - rows.length; add = add.slice(0, room); if (!add.length) { toast('这张表已经满了'); return; }
+  // Rows already started with the same first column (e.g. the four seeded platforms) are completed in place rather than duplicated.
+  const first = l.cols[0].k, fillIn = [];
+  add = add.filter(r => { const at = rows.findIndex(x => x[first] && x[first] === r[first] && !fillIn.some(f => f.i === rows.indexOf(x))); if (at < 0) return true; fillIn.push({ i: at, r }); return false; });
+  const room = 60 - rows.length; add = add.slice(0, room); if (!add.length && !fillIn.length) { toast('这张表已经满了'); return; }
   aiBusy = true; aiRun = base; render(true);
   const host = document.querySelector(`[data-ai-list="${base}"]`);
   if (host) host.insertAdjacentHTML('afterbegin', '<div class="ai-thinking"><span></span><b>AI 正在整理…</b><i>读取资料夹与相关剧本</i></div>');
   later(() => {
+    fillIn.forEach(({ i, r }) => { rows[i] = { ...rows[i], ...Object.fromEntries(Object.entries(r).filter(([key]) => !(rows[i][key] || '').trim())), _ai: '1' }; });
+    if (!add.length) { aiBusy = false; aiRun = ''; aiDone[base] = Date.now(); touch(); flush(); render(true); document.querySelectorAll(`[data-ai-list="${base}"] .o-row`).forEach(el => el.classList.add('ai-in')); later(() => render(true), 2500); toast(`AI 已补全 ${fillIn.length} 条，可以直接修改（演示阶段为预置示例）`); return; }
+    if (fillIn.length) { touch(); render(true); }
     add.forEach((r, n) => later(() => {
       rows.push({ ...r, _ai: '1' }); touch(); render(true);
       const els = document.querySelectorAll(`[data-ai-list="${base}"] .o-row`), el = els[els.length - 1]; if (el) el.classList.add('ai-in');
-      if (n === add.length - 1) { aiBusy = false; aiRun = ''; aiDone[base] = Date.now(); flush(); render(true); later(() => render(true), 2500); toast(`AI 已添加 ${add.length} 条，可以直接修改（演示阶段为预置示例）`); }
+      if (n === add.length - 1) { aiBusy = false; aiRun = ''; aiDone[base] = Date.now(); flush(); render(true); later(() => render(true), 2500); toast(`AI 已${fillIn.length ? '补全 ' + fillIn.length + ' 条、' : ''}添加 ${add.length} 条，可以直接修改（演示阶段为预置示例）`); }
     }, n * 260));
   }, 900);
 }
