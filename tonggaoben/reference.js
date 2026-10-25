@@ -167,13 +167,13 @@ function importFiles(files) {
 }
 /* ---------------- 归档 / 备份 / 导入 ---------------- */
 function download(name, text, type) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
-function exportBackup() { download(`戏伴工作台-备份-${new Date().toLocaleDateString('sv')}.json`, JSON.stringify({ app: 'xilixiwai', version: 1, savedAt: new Date().toISOString(), state: S }, null, 1), 'application/json'); toast('已导出完整备份（包含所有记录、决定和附件）'); }
+function exportBackup() { download(`通告本示例-备份-${new Date().toLocaleDateString('sv')}.json`, JSON.stringify({ app: 'xilixiwai', version: 1, savedAt: new Date().toISOString(), state: S }, null, 1), 'application/json'); toast('已导出完整备份（包含所有记录、决定和附件）'); }
 function importBackup(file) {
   const r = new FileReader(); r.onload = () => {
     try { const j = JSON.parse(r.result); if (j.app !== 'xilixiwai' || !j.state) throw 0;
       if (!confirm(`导入 ${j.savedAt ? j.savedAt.slice(0, 16).replace('T', ' ') : ''} 的备份？当前浏览器里的记录会被替换。`)) return;
       S = Object.assign(fresh(), j.state); save(); render(); toast('备份已恢复'); if ($('#dlg').open) settings();
-    } catch { toast('这不是戏伴工作台的备份文件'); }
+    } catch { toast('这不是通告本示例的备份文件'); }
   }; r.readAsText(file);
 }
 function archiveProject() {
@@ -1337,7 +1337,7 @@ const OWN = {
     sec('compare', '横向对比剧本', '同时收到几个本子时，先并排比一比角色分量、主创和匹配度。', AA, { lists: [L('scripts', '剧本', [F('title', '剧名'), F('role', '角色'), F('weight', '戏份'), F('team', '主创 / 平台'), F('fit', '匹配度', 'select', ['高', '中', '低', '待评估']), F('note', '备注')])] }),
     sec('read', '初读首选剧本', '记下第一遍读完的直觉，后面读本时可以回头对照。', ['actor'], { vals: [F('summary', '故事梗概', 'area'), F('arc', '角色成长线', 'select', ['完整', '部分', '扁平', '待判断']), F('scenes', '主要场次'), F('appeal', '吸引我的地方', 'area'), F('worry', '我的顾虑', 'area')] }),
     sec('vet', '项目背调', '每条结论写上来源，区分已核验、待核验和传闻。', AA, { lists: [L('checks', '核查项', [F('item', '核查内容'), F('source', '来源'), F('result', '结论', 'select', ['已核验', '待核验', '有风险', '传闻']), F('note', '说明')], { seed: [{ item: '出品方经营与诉讼' }, { item: '导演与主创口碑' }, { item: '平台与排播' }, { item: '题材与审查风险' }] })] }),
-    sec('schedule', '档期核对', '对照工作台里已有的档期，写清冲突和可调整的部分。', ['assistant'], { vals: [F('window', '预计拍摄周期'), F('conflict', '冲突与调整方案', 'area')], extra: 'conflicts' }),
+    sec('schedule', '档期核对', '对照通告本里已有的档期，写清冲突和可调整的部分。', ['assistant'], { vals: [F('window', '预计拍摄周期'), F('conflict', '冲突与调整方案', 'area')], extra: 'conflicts' }),
     sec('decide', '我的接戏决定', '理由写在这里；正式决定在项目详情里由明星本人确认，团队会看到结果。', ['actor'], { vals: [F('lean', '目前倾向', 'select', ['接下', '暂缓', '不接', '还没想好']), F('reason', '理由与条件', 'area')], extra: 'decision' })
   ] },
   st1: { desc: '整理人物关系、成长线、潜台词和人物小传，形成自己的角色分析卡。', roles: ['actor'], secs: [
@@ -1363,7 +1363,7 @@ const OWN = {
   ] },
   st4: { desc: '对照当天通告，记录现场重点；把会议纪要拆成有负责人的任务。', roles: ALL, secs: [
     sec('call', '今日准备', '先看通告，再写下今天的重点和现场反馈。', ALL, { vals: [F('focus', '今天的重点', 'area'), F('feedback', '现场反馈', 'area')], extra: 'callday' }),
-    sec('tasks', '纪要拆任务', '贴入会议纪要，拆成有负责人、截止日期的任务，再逐条发布到工作台。', AT.concat('actor'), { vals: [F('minutes', '会议纪要', 'area')], lists: [L('tasks', '任务', [F('title', '任务'), F('owner', '负责人', 'member'), F('due', '截止', 'date'), F('note', '说明')], { toTask: true })] }),
+    sec('tasks', '纪要拆任务', '贴入会议纪要，拆成有负责人、截止日期的任务，再逐条发布到通告本。', AT.concat('actor'), { vals: [F('minutes', '会议纪要', 'area')], lists: [L('tasks', '任务', [F('title', '任务'), F('owner', '负责人', 'member'), F('due', '截止', 'date'), F('note', '说明')], { toTask: true })] }),
     sec('cal', '内容日历', '一周内容排期，谁负责、发在哪里。', AT, { lists: [L('posts', '内容', [F('date', '日期', 'date'), F('platform', '平台', 'select', PLATFORMS), F('content', '内容'), F('owner', '负责人', 'member')])] }),
     sec('faq', '常见问题与口径', '探班、采访常被问到的问题，统一口径。', AT, { lists: [L('qa', '问答', [F('q', '问题'), F('a', '口径')])] })
   ] },
@@ -1487,7 +1487,7 @@ function oFolder() {
   $('#folder').innerHTML = `
   <div class="folder-head"><h3>${project() ? '这部戏的资料夹' : '我的资料夹'}<button class="own-close" data-o="folder" aria-label="关闭资料夹">×</button></h3><p>草稿只有你自己能看到。要给别人看，在板块里点「存为资料卡」或「发成任务」，选好共享范围。</p></div>
   <div class="folder-list">${pages.map(k => { const [n, t] = pageCount(k), c = peek(k).complete; return `<div class="fi ${n ? '' : 'empty'}" data-o="page" data-p="${k}"><span class="fi-no">${c ? '✓' : n + '/' + t}</span><div><b>${esc(pageTitle(k))}</b><small>${c ? '已完成' : n ? `已填 ${n} 项，共 ${t} 项` : '还没开始'}</small></div></div>`; }).join('')}
-  ${ctx.projectId ? `<h4 class="folder-cap">工作台里关联的资料</h4>${linked.length ? linked.map(r => `<div class="fi" data-o="open" data-id="${esc(r.id)}"><span class="fi-no">${kindName[r.kind]}</span><div><b>${esc(r.payload.title || '未命名')}</b><small>${r.kind === 'task' ? esc((r.payload.status || '') + (r.payload.assigneeId ? ' · ' + memberName(r.payload.assigneeId) : '')) : esc({ private: '仅自己', core: '明星与助理', workspace: '整个团队' }[r.visibility] || '')}</small></div></div>`).join('') : '<p class="small muted pad">还没有关联到这个项目的任务或资料卡。</p>'}` : ''}
+  ${ctx.projectId ? `<h4 class="folder-cap">通告本里关联的资料</h4>${linked.length ? linked.map(r => `<div class="fi" data-o="open" data-id="${esc(r.id)}"><span class="fi-no">${kindName[r.kind]}</span><div><b>${esc(r.payload.title || '未命名')}</b><small>${r.kind === 'task' ? esc((r.payload.status || '') + (r.payload.assigneeId ? ' · ' + memberName(r.payload.assigneeId) : '')) : esc({ private: '仅自己', core: '明星与助理', workspace: '整个团队' }[r.visibility] || '')}</small></div></div>`).join('') : '<p class="small muted pad">还没有关联到这个项目的任务或资料卡。</p>'}` : ''}
   </div>
   <div class="folder-foot"><button class="btn pri" data-o="exportAll">导出${project() ? '整部戏' : ''}资料包</button>
   <div class="row mt8 foot3"><button class="btn sm" data-o="backup">💾 备份草稿</button><label class="btn sm">📥 导入草稿<input type="file" data-o-file="import" accept=".json,application/json" hidden></label></div></div>`;
@@ -1508,7 +1508,7 @@ function listBlock(k, s, l) {
   return `<div class="o-list" data-ai-list="${base}" style="--cols:${l.cols.length}">
     ${rows.length ? `<div class="o-head">${l.cols.map(c => `<span>${esc(c.l)}</span>`).join('')}<span></span></div>` : ''}
     ${rows.map((r, i) => `<div class="o-row">${l.cols.map(c => `<label class="o-cell"><span>${esc(c.l)}</span>${control(c, r[c.k] || '', `${base}|${i}|${c.k}`)}</label>`).join('')}
-      <div class="o-acts">${r._ai ? `<span class="ai-pill">AI 示例</span><button class="btn sm" data-o="aiKeep" data-l="${base}" data-i="${i}">保留</button>` : ''}${can.task ? `<button class="btn sm" data-o="toTask" data-l="${base}" data-i="${i}" title="发布到工作台任务">发成任务</button>` : ''}${can.line ? `<button class="btn sm" data-o="toLine" data-l="${base}" data-i="${i}">加入台词练习</button>` : ''}<button class="btn sm ghost" data-o="delRow" data-l="${base}" data-i="${i}" aria-label="删除这一行">删除</button></div></div>`).join('')}
+      <div class="o-acts">${r._ai ? `<span class="ai-pill">AI 示例</span><button class="btn sm" data-o="aiKeep" data-l="${base}" data-i="${i}">保留</button>` : ''}${can.task ? `<button class="btn sm" data-o="toTask" data-l="${base}" data-i="${i}" title="发布到通告本任务">发成任务</button>` : ''}${can.line ? `<button class="btn sm" data-o="toLine" data-l="${base}" data-i="${i}">加入台词练习</button>` : ''}<button class="btn sm ghost" data-o="delRow" data-l="${base}" data-i="${i}" aria-label="删除这一行">删除</button></div></div>`).join('')}
     ${rows.length ? '' : `<p class="o-empty">暂无${esc(l.l)}</p>`}
     <div class="row o-add">${aiRowsFor(k, l.k) ? aiButton('aiFill', `data-l="${base}"`, 'AI 帮我添加', base) : ''}<button class="btn" data-o="addRow" data-l="${base}">＋ 添加${esc(l.l)}</button><button class="btn" data-o="paste" data-l="${base}">整段粘贴多行</button>${l.seed && !rows.length ? `<button class="btn" data-o="seed" data-l="${base}">填入常用${esc(l.l)}</button>` : ''}</div>
     ${openPaste[base] ? `<div class="o-paste"><p class="small">每行一条，列之间用 <b>｜</b> 或 Tab 分隔，顺序：${l.cols.map(c => esc(c.l)).join(' ｜ ')}。只写一列也可以。</p><textarea data-paste="${base}" rows="6" placeholder="${esc(l.cols.slice(0, 3).map(c => c.l).join(' ｜ '))}"></textarea><div class="row mt8"><button class="btn pri" data-o="pasteAdd" data-l="${base}">按行添加</button><button class="btn" data-o="paste" data-l="${base}">取消</button></div></div>` : ''}
@@ -1527,11 +1527,11 @@ function extraBlock(k, s) {
   if (s.extra === 'conflicts') {
     const list = records('schedule').filter(r => r.payload.status !== '已结束'), hits = [];
     list.forEach((a, i) => list.slice(i + 1).forEach(b => { if (a.payload.startDate <= b.payload.endDate && b.payload.startDate <= a.payload.endDate) hits.push([a, b]); }));
-    return `<div class="o-callout ${hits.length ? 'warn' : ''}"><b>${hits.length ? `工作台里有 ${hits.length} 处档期重叠` : '工作台里的档期暂无重叠'}</b>${hits.map(([a, b]) => `<span>${esc(a.payload.name)}（${esc(a.payload.startDate)}—${esc(a.payload.endDate)}）与 ${esc(b.payload.name)}（${esc(b.payload.startDate)}—${esc(b.payload.endDate)}）</span>`).join('')}${p && p.payload.decision ? `<span>明星决定：${esc(p.payload.decision)}</span>` : ''}<button class="btn" data-o="nav" data-tab="schedule">打开档期</button></div>`;
+    return `<div class="o-callout ${hits.length ? 'warn' : ''}"><b>${hits.length ? `通告本里有 ${hits.length} 处档期重叠` : '通告本里的档期暂无重叠'}</b>${hits.map(([a, b]) => `<span>${esc(a.payload.name)}（${esc(a.payload.startDate)}—${esc(a.payload.endDate)}）与 ${esc(b.payload.name)}（${esc(b.payload.startDate)}—${esc(b.payload.endDate)}）</span>`).join('')}${p && p.payload.decision ? `<span>明星决定：${esc(p.payload.decision)}</span>` : ''}<button class="btn" data-o="nav" data-tab="schedule">打开档期</button></div>`;
   }
   if (s.extra === 'callday') {
     const days = records('callDay').sort((a, b) => a.payload.date.localeCompare(b.payload.date)), d = days.find(r => r.payload.date === todayStr()) || days.find(r => r.payload.date > todayStr());
-    if (!d) return `<div class="o-callout"><b>工作台里还没有今天或之后的通告。</b>${role() === 'assistant' ? '<button class="btn pri" data-o="create" data-kind="callDay">新建通告</button>' : '<span>通告由助理编排，发布后会出现在这里。</span>'}</div>`;
+    if (!d) return `<div class="o-callout"><b>通告本里还没有今天或之后的通告。</b>${role() === 'assistant' ? '<button class="btn pri" data-o="create" data-kind="callDay">新建通告</button>' : '<span>通告由助理编排，发布后会出现在这里。</span>'}</div>`;
     const sc = d.payload.scenes || [];
     return `<div class="o-callout"><b>${d.payload.date === todayStr() ? '今天' : esc(d.payload.date)} · ${esc(d.payload.projectCode)}${d.payload.location ? ' · ' + esc(d.payload.location) : ''}</b><span>化妆 ${esc(d.payload.makeupTime || '—')} · 到场 ${esc(d.payload.arrivalTime || '—')} · ${sc.length} 场，已完成 ${sc.filter(x => x.cleared).length} 场</span>${sc.slice(0, 6).map(x => `<span>${x.cleared ? '✓' : '○'} 第${esc(x.number)}场 ${esc(x.summary || '')}</span>`).join('')}<button class="btn" data-o="open" data-id="${esc(d.id)}">打开通告</button></div>`;
   }
@@ -1898,7 +1898,7 @@ function oPage(k) {
   const nav = st ? `<div class="next"><div class="carry">${i < 7 && canPage('st' + (i + 1)) ? `下一站：${esc(D.stations[i + 1].name)} · ${esc(D.stations[i + 1].title)}` : '一部戏的准备会随项目一直保存在这里。'}</div><div class="row">${i > 0 && canPage('st' + (i - 1)) ? `<button class="btn" data-o="page" data-p="st${i - 1}">← ${esc(D.stations[i - 1].name)}</button>` : ''}${i < 7 && canPage('st' + (i + 1)) ? `<button class="btn pri" data-o="page" data-p="st${i + 1}">${esc(D.stations[i + 1].name)} →</button>` : ''}</div></div>` : '';
   return toolsHtml() + head + `<div class="page-cols"><div class="page-main">${body}${reviewOwn(k)}${nav}</div><aside class="page-side">${toc}${share}</aside></div>`;
 }
-function oLoading() { return loadError ? `<section class="card"><h3>工作台暂时没能打开</h3><p class="sub mt8">${esc(loadError)}</p><div class="row mt8"><button class="btn pri" data-o="reload">重新连接</button><button class="btn" data-o="demo">先看参考示例</button></div></section>` : '<section class="card"><h3>正在打开你的工作区…</h3><p class="sub mt8">正在读取工作台里的资料和你的草稿。</p></section>'; }
+function oLoading() { return loadError ? `<section class="card"><h3>工作台暂时没能打开</h3><p class="sub mt8">${esc(loadError)}</p><div class="row mt8"><button class="btn pri" data-o="reload">重新连接</button><button class="btn" data-o="demo">先看参考示例</button></div></section>` : '<section class="card"><h3>正在打开你的工作区…</h3><p class="sub mt8">正在读取通告本里的资料和你的草稿。</p></section>'; }
 
 /* ---------- 导出 ---------- */
 function pageMd(k) {
@@ -1911,7 +1911,7 @@ function pageMd(k) {
   const rv = p.lists.reviews || []; if (rv.length) L.push('', '### 人工复核 · 最终决定', ...rv.map(r => `- ${r.at} ${r.who}（${r.status}）：${r.text.replace(/\n/g, ' ')}`));
   return L.join('\n');
 }
-function mdHead() { const pj = project(); return [`# ${pj ? '《' + pj.payload.name + '》' : '通用工作区'}资料包`, '', `${(ctx.me || {}).name || ''}（${ROLE[role()]}）· 工作台 · 导出于 ${new Date().toLocaleString('zh-CN')}`, '', '> 内容为本人录入的草稿，没有经过 AI 生成；共享前请自行确认范围。', '']; }
+function mdHead() { const pj = project(); return [`# ${pj ? '《' + pj.payload.name + '》' : '通用工作区'}资料包`, '', `${(ctx.me || {}).name || ''}（${ROLE[role()]}）· 通告本 · 导出于 ${new Date().toLocaleString('zh-CN')}`, '', '> 内容为本人录入的草稿，没有经过 AI 生成；共享前请自行确认范围。', '']; }
 const fileName = s => s.replace(/[\\/:*?"<>|]/g, '_');
 
 /* ---------- 共享到通告本 ---------- */
@@ -1925,18 +1925,18 @@ function shareTask(base, i) {
   const payload = { title: title.slice(0, 160), note: note.slice(0, 8000), projectId: ctx.projectId || null };
   if (owner && row[owner.k]) payload.assigneeId = row[owner.k];
   if (due && dateOk(row[due.k])) payload.dueDate = row[due.k];
-  bridge({ type: 'create', kind: 'task', payload }); toast('已在工作台打开任务，确认后发布');
+  bridge({ type: 'create', kind: 'task', payload }); toast('已在通告本打开任务，确认后发布');
 }
 function shareLine(base, i) {
   const { row } = rowAt(base, i); if (!row) return;
   const text = (row.suggest || row.original || '').trim(); if (!text) { toast('先填写原句或建议稿'); return; }
-  bridge({ type: 'create', kind: 'line', payload: { sceneNumber: (row.scene || '').slice(0, 100), text: text.slice(0, 12000), emotionNote: row.suggest && row.original ? `原句：${row.original}`.slice(0, 4000) : '' } }); toast('已在工作台打开台词，确认后保存');
+  bridge({ type: 'create', kind: 'line', payload: { sceneNumber: (row.scene || '').slice(0, 100), text: text.slice(0, 12000), emotionNote: row.suggest && row.original ? `原句：${row.original}`.slice(0, 4000) : '' } }); toast('已在通告本打开台词，确认后保存');
 }
 function shareDoc(k, kind) {
   const md = pageMd(k); if (!mySecs(k).some(s => filled(k, s))) { toast('这一页还没有内容'); return; }
   const pj = project(), title = `${pageTitle(k)}${pj ? ' ·《' + pj.payload.name + '》' : ''}`.slice(0, 160);
   const payload = kind === 'note' ? { title, content: md.slice(0, 16000), stage: +k[2], projectId: ctx.projectId || null, complete: !!peek(k).complete } : { title, content: md.slice(0, 16000), category: k[0] === 's' && k[1] === 't' ? '项目资料' : pageTitle(k), projectId: ctx.projectId || null };
-  bridge({ type: 'create', kind, payload }); toast(md.length > 16000 ? '内容较长，只带入前 16000 字；完整版请导出' : '已在工作台打开，选择共享范围后保存');
+  bridge({ type: 'create', kind, payload }); toast(md.length > 16000 ? '内容较长，只带入前 16000 字；完整版请导出' : '已在通告本打开，选择共享范围后保存');
 }
 
 /* ---------- 事件 ---------- */
@@ -1975,7 +1975,7 @@ document.addEventListener('click', e => {
     case 'complete': { const p = pg(el.dataset.p); p.complete = !p.complete; touch(); render(true); toast(p.complete ? '已标记完成' : '已取消完成标记'); break; }
     case 'exportPage': { const k = el.dataset.p; download(fileName(`${pageTitle(k)}.md`), mdHead().concat(pageMd(k)).join('\n'), 'text/markdown'); toast('已导出本页'); break; }
     case 'exportAll': { const ks = D.stations.map((_, n) => 'st' + n).concat(CAREER, LIFE).filter(k => canPage(k) && mySecs(k).some(s => filled(k, s))); if (!ks.length) { toast('还没有可以导出的内容'); break; } download(fileName(`${project() ? '《' + project().payload.name + '》' : '通用工作区'}资料包.md`), mdHead().concat(ks.map(pageMd).join('\n\n')).join('\n'), 'text/markdown'); toast('已导出资料包（Markdown）'); break; }
-    case 'backup': download(fileName(`戏伴工作台-草稿-${project() ? project().payload.name : '通用'}-${todayStr()}.json`), JSON.stringify({ app: 'tonggaoben-studio', version: 1, projectId: ctx.projectId, savedAt: new Date().toISOString(), state: draft }, null, 2), 'application/json'); toast('已导出草稿备份'); break;
+    case 'backup': download(fileName(`通告本-工作台草稿-${project() ? project().payload.name : '通用'}-${todayStr()}.json`), JSON.stringify({ app: 'tonggaoben-studio', version: 1, projectId: ctx.projectId, savedAt: new Date().toISOString(), state: draft }, null, 2), 'application/json'); toast('已导出草稿备份'); break;
     case 'rvst': ownStatus = el.dataset.v; document.querySelectorAll('[data-o="rvst"]').forEach(b => b.classList.toggle('on', b.dataset.v === ownStatus)); break;
     case 'rvsave': { const t = ($('#oRvText').value || '').trim(); if (!t) { toast('先写下你们的决定'); break; } const p = pg(el.dataset.p), l = p.lists.reviews = p.lists.reviews || []; if (l.length >= 60) { toast('最多保留 60 条决定，请先删除旧的'); break; } l.push({ status: ownStatus, who: $('#oRvWho').value, text: t.slice(0, 4000), at: stamp() }); touch(); render(true); toast('已保存人工决定'); break; }
     case 'rvdel': if (confirm('删除这条决定？')) { pg(el.dataset.p).lists.reviews.splice(i, 1); touch(); render(true); } break;
@@ -2020,7 +2020,7 @@ function importDraft(file, input) {
       if (!confirm(`导入 ${keys.length} 个板块，覆盖当前项目里相同板块的草稿？其他板块保持不变。`)) return;
       keys.forEach(k => { const p = st.pages[k] || {}; draft.pages[k] = { values: p.values && typeof p.values === 'object' ? p.values : {}, lists: p.lists && typeof p.lists === 'object' ? p.lists : {}, complete: p.complete === true }; });
       touch(); flush(); render(true); toast('已导入草稿，正在保存');
-    } catch { toast('这个文件不是工作台的草稿备份'); }
+    } catch { toast('这个文件不是通告本工作台的草稿备份'); }
   };
   r.readAsText(file);
 }
@@ -2029,13 +2029,13 @@ function importDraft(file, input) {
 const demoRender = render;
 render = function (keepScroll) {
   if (!ownMode) {
-    $('#app').classList.remove('own'); demoRender(keepScroll); document.documentElement.dataset.theme = 'paper'; document.title = '戏伴工作台 · 示例';
+    $('#app').classList.remove('own'); demoRender(keepScroll); document.documentElement.dataset.theme = 'paper'; document.title = '通告本 · 参考示例';
     document.querySelectorAll('#side a.extra, #side .side-btns [data-act="settings"], #top .chip, #top .themes').forEach(x => x.remove()); const br = $('#side .brand'); if (br) br.removeAttribute('data-act');
     $('#top').insertAdjacentHTML('beforeend', modeSwitch());
     $('#main').insertAdjacentHTML('afterbegin', `<div class="demo-banner"><b>参考示例</b><span>项目、人物、留言和品牌均为虚构；结果是预置内容，没有调用 AI，操作也不会发送或保存。</span>${embedded ? '<button class="btn pri" data-o="own">回到我的工作区</button>' : ''}</div>`);
     return;
   }
-  document.documentElement.dataset.theme = 'paper'; document.title = '戏伴工作台'; $('#app').classList.add('own');
+  document.documentElement.dataset.theme = 'paper'; document.title = '通告本 · 工作台'; $('#app').classList.add('own');
   const m = $('#main'), y = m.scrollTop;
   oSide(); oTop(); oFolder();
   m.innerHTML = booted ? oPage(here) : oLoading();

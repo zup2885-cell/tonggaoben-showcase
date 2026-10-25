@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>戏伴</title>
-<meta name="description" content="戏伴：选择进入戏伴工作台或戏伴提案。">
+<title>通告本作品集</title>
+<meta name="description" content="通告本演示版与戏伴提案页。">
 <link rel="stylesheet" href="tonggaoben/fonts/fonts.css">
 <style>
 :root{--paper:#f3f1ec;--card:#fffcf6;--ink:#2b231c;--muted:#6e5d4d;--gold:#a0783c;color-scheme:light}
@@ -13,34 +13,34 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans SC
 main{max-width:1040px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:10px;font:700 22px "Noto Serif SC","Songti SC",serif}
 .brand span{display:grid;place-items:center;width:30px;height:34px;background:var(--ink);color:#fff;font-size:19px;clip-path:polygon(0 0,22% 9%,50% 2%,78% 9%,100% 0,100% 100%,50% 90%,0 100%)}
-.eyebrow{font:500 15px "Noto Sans SC",sans-serif;letter-spacing:.1em;color:var(--gold);margin:48px 0 10px}
+.eyebrow{font:italic 18px "Instrument Serif",Georgia,serif;color:var(--gold);margin:48px 0 10px}
 h1{font:800 clamp(40px,6vw,72px)/1.15 "Noto Serif SC","Songti SC",serif;margin:0;letter-spacing:.02em}
 .lead{font-size:16px;line-height:1.9;color:var(--muted);margin:16px 0 0;max-width:34em}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:40px}
-a.card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:380px;padding:30px 32px;border-radius:26px;background:var(--card);color:inherit;text-decoration:none;box-shadow:0 1px 2px rgba(60,44,28,.05),0 18px 40px -18px rgba(60,44,28,.25);overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}
+a.card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:300px;padding:30px 32px;border-radius:26px;background:var(--card);color:inherit;text-decoration:none;box-shadow:0 1px 2px rgba(60,44,28,.05),0 18px 40px -18px rgba(60,44,28,.25);overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}
 a.card:hover,a.card:focus-visible{transform:translateY(-3px);box-shadow:0 1px 2px rgba(60,44,28,.05),0 26px 48px -18px rgba(60,44,28,.35);outline:none}
 a.card:focus-visible{box-shadow:0 0 0 3px #c9a46a}
-.card i{font:500 14px "Noto Sans SC",sans-serif;letter-spacing:.08em;color:var(--gold)}
-.card h2{font:700 36px/1.3 "Noto Serif SC","Songti SC",serif;margin:0}
+.card i{font:italic 17px "Instrument Serif",Georgia,serif;color:var(--gold)}
+.card h2{font:700 30px/1.3 "Noto Serif SC","Songti SC",serif;margin:0}
 .card p{margin:0;font-size:15px;line-height:1.85;color:var(--muted);max-width:22em}
 .card em{margin-top:auto;font-style:normal;font-weight:500;font-size:15px}
 .card img{position:absolute;right:18px;bottom:12px;width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 14px 14px rgba(60,44,28,.2));transition:transform .3s ease}
 a.card:hover img{transform:rotate(-6deg) scale(1.05)}
 .card.warm{background:linear-gradient(125deg,#f4e7d3,#fffcf6 70%)}
 footer{margin-top:40px;font-size:13px;color:#9a8977;line-height:1.8}
-@media (max-width:760px){.cards{grid-template-columns:1fr}a.card{min-height:260px;padding-right:150px}.card img{width:120px;height:120px}.card h2{font-size:30px}}
+@media (max-width:760px){.cards{grid-template-columns:1fr}a.card{min-height:260px;padding-right:150px}.card img{width:120px;height:120px}}
 @media (prefers-reduced-motion:reduce){a.card,.card img{transition:none}}
 </style>
 </head>
 <body>
 <main>
-  <div class="brand"><span>戏</span>戏伴</div>
-  <p class="eyebrow">两个板块</p>
-  <h1>戏伴，<br>选一个板块进入</h1>
-  <p class="lead">想动手试，就进工作台；想了解产品思路，就看提案。</p>
+  <div class="brand"><span>通</span>通告本</div>
+  <p class="eyebrow">Portfolio</p>
+  <h1>明星、助理与团队的<br>协作工作台</h1>
+  <p class="lead">两个页面：一个是可以直接试用的通告本演示版，一个是讲清楚产品思路的戏伴提案页。</p>
   <div class="cards">
-    <a class="card warm" href="./tonggaoben/"><i>板块 01 · 试用</i><h2>戏伴工作台</h2><p>选明星、助理或团队身份进入，试用拍戏准备八站、事业与生活各板块，以及 AI 帮你添加、起草的效果。</p><em>进入工作台 →</em><img src="tonggaoben/cats/cat-lounge.png" alt=""></a>
-    <a class="card" href="./xiban/"><i>板块 02 · 提案</i><h2>戏伴提案</h2><p>一个工作台，三种身份。讲明星、助理和团队各自的难处，以及每个功能怎样接力。</p><em>查看提案 →</em><img src="tonggaoben/cats/cat-toys.png" alt=""></a>
+    <a class="card warm" href="./tonggaoben/"><i>01 — Live demo</i><h2>通告本演示版</h2><p>选明星、助理或团队身份进入，试用拍戏准备八站、事业与生活各板块，以及 AI 帮你添加、起草的效果。</p><em>打开演示 →</em><img src="tonggaoben/cats/cat-lounge.png" alt=""></a>
+    <a class="card" href="./xiban/"><i>02 — Proposal</i><h2>戏伴提案页</h2><p>一个工作台，三种身份。讲明星、助理和团队各自的难处，以及每个功能怎样接力。</p><em>打开提案 →</em><img src="tonggaoben/cats/cat-guide.png" alt=""></a>
   </div>
   <footer>演示版中的项目、人物与数据均为虚构示例，你填写的内容只保存在自己的浏览器里；AI 结果为预置示例，没有调用真实模型。</footer>
 </main>
