@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="通告本演示版：明星、助理与团队的协作工作台。数据为虚构示例。">
-<title>通告本演示</title>
+<meta name="description" content="戏伴工作台：明星、助理与团队的协作工作台。数据为虚构示例。">
+<title>戏伴工作台</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="style.css">
@@ -88,11 +88,11 @@ body{font-family:"Noto Sans SC","PingFang SC",sans-serif}
 
 <section class="demo-entry" id="entry">
   <div class="wrap">
-    <header class="d-top"><div class="d-brand"><span>通</span>通告本</div><span class="d-badge">演示版 · 示例数据</span></header>
+    <header class="d-top"><div class="d-brand"><span>戏</span>戏伴工作台</div><span class="d-badge">演示版 · 示例数据</span></header>
     <div class="d-hero">
       <div>
         <p class="d-eyebrow"><i></i>明星、助理与团队的协作工作台</p>
-        <h1>通告本.</h1>
+        <h1>戏伴工作台.</h1>
         <p class="d-heading">各司其职，<br>默契开场。</p>
         <p class="d-desc">选一个身份进入。每个人打开，看到的都是自己要做的事：明星准备角色和做决定，助理排档期、跟通告，团队分工协作。</p>
       </div>
@@ -116,7 +116,7 @@ body{font-family:"Noto Sans SC","PingFang SC",sans-serif}
 </dialog>
 
 <div id="appShell" hidden>
-  <div class="d-bar"><div class="d-brand"><span>通</span>通告本</div><span class="d-badge">演示版</span><nav class="d-groups" id="dGroups" aria-label="分区"></nav><span class="who" id="who"></span><button type="button" id="switchRole">切换身份</button></div>
+  <div class="d-bar"><div class="d-brand"><span>戏</span>戏伴工作台</div><span class="d-badge">演示版</span><nav class="d-groups" id="dGroups" aria-label="分区"></nav><span class="who" id="who"></span><button type="button" id="switchRole">切换身份</button></div>
   <div class="app" id="app"><aside class="side" id="side"></aside><div class="center"><header class="top" id="top"></header><main class="main" id="main" tabindex="-1"></main></div><aside class="folder" id="folder"></aside></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog id="dlg"></dialog>
@@ -159,7 +159,7 @@ body{font-family:"Noto Sans SC","PingFang SC",sans-serif}
   const draftKey = () => `tgb-demo:${me.role}:${pid}`;
   function init() {
     const d = store.get(draftKey()) || { state: { version: 1, pages: {} }, revision: 0, updatedAt: null };
-    setTimeout(() => LOCAL.deliver({ channel: 'tonggaoben-studio', type: 'init', me, members, workspace: { id: 'w', name: '通告本演示空间', ownerId: 'm-star' }, records: visible(me.role), projectId: pid, ...d }), 0);
+    setTimeout(() => LOCAL.deliver({ channel: 'tonggaoben-studio', type: 'init', me, members, workspace: { id: 'w', name: '戏伴工作台示例空间', ownerId: 'm-star' }, records: visible(me.role), projectId: pid, ...d }), 0);
   }
   const TAB = { today: '今天', schedule: '档期', lines: '台词练习', tasks: '任务', resources: '资料卡', messages: '留言', more: '我的', team: '项目总览' };
   const KIND = { task: '任务', resource: '资料卡', note: '准备笔记', line: '台词', schedule: '档期', callDay: '通告', reminder: '提醒', business: '商务' };
