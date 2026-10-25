@@ -1,54 +1,48 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f0f1ec"><meta name="description" content="戏伴：明星、助理与团队的 AI 工作台。">
-  <title>戏伴 · 把戏演好，把日子过好</title>
-  <style>.enter-link{border:1.5px solid #111;padding:7px 14px!important;background:#111;color:#f5f5f5!important;box-shadow:3px 3px 0 #aaa}.enter-link:hover{background:#333}.hero-enter{display:inline-flex;align-items:center;gap:22px;margin-top:30px;padding:15px 24px;background:#111;color:#f5f5f5;font-size:15px;font-weight:600;box-shadow:4px 4px 0 #aaa;transition:transform .15s}.hero-enter:hover{transform:translate(-2px,-2px)}.hero-enter span{font-size:20px}.hero-enter-note{margin-top:12px;font-size:12px;color:#777}.footer-enter{display:inline-flex;gap:16px;margin-top:22px;padding:13px 22px;background:#26321f;color:#f7f6ef;font-weight:600;font-size:15px}@media(max-width:760px){.enter-link{padding:5px 9px!important}}</style>
-  <link rel="stylesheet" href="./xiban/style.css"><link rel="stylesheet" href="./xiban/journey.css?v=20">
-  <script defer src="./xiban/app.js?v=20"></script><script defer src="./xiban/guide-data.js?v=20"></script><script defer src="./xiban/journey.js?v=20"></script><script defer src="./xiban/pointer.js?v=20"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>戏伴</title>
+<meta name="description" content="戏伴：选择进入戏伴工作台或戏伴提案。">
+<link rel="stylesheet" href="tonggaoben/fonts/fonts.css">
+<style>
+:root{--paper:#f3f1ec;--card:#fffcf6;--ink:#2b231c;--muted:#6e5d4d;--gold:#a0783c;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans SC","PingFang SC",sans-serif;padding-block:56px 64px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+main{max-width:1040px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font:700 22px "Noto Serif SC","Songti SC",serif}
+.brand span{display:grid;place-items:center;width:30px;height:34px;background:var(--ink);color:#fff;font-size:19px;clip-path:polygon(0 0,22% 9%,50% 2%,78% 9%,100% 0,100% 100%,50% 90%,0 100%)}
+.eyebrow{font:500 15px "Noto Sans SC",sans-serif;letter-spacing:.1em;color:var(--gold);margin:48px 0 10px}
+h1{font:800 clamp(40px,6vw,72px)/1.15 "Noto Serif SC","Songti SC",serif;margin:0;letter-spacing:.02em}
+.lead{font-size:16px;line-height:1.9;color:var(--muted);margin:16px 0 0;max-width:34em}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:40px}
+a.card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:380px;padding:30px 32px;border-radius:26px;background:var(--card);color:inherit;text-decoration:none;box-shadow:0 1px 2px rgba(60,44,28,.05),0 18px 40px -18px rgba(60,44,28,.25);overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}
+a.card:hover,a.card:focus-visible{transform:translateY(-3px);box-shadow:0 1px 2px rgba(60,44,28,.05),0 26px 48px -18px rgba(60,44,28,.35);outline:none}
+a.card:focus-visible{box-shadow:0 0 0 3px #c9a46a}
+.card i{font:500 14px "Noto Sans SC",sans-serif;letter-spacing:.08em;color:var(--gold)}
+.card h2{font:700 36px/1.3 "Noto Serif SC","Songti SC",serif;margin:0}
+.card p{margin:0;font-size:15px;line-height:1.85;color:var(--muted);max-width:22em}
+.card em{margin-top:auto;font-style:normal;font-weight:500;font-size:15px}
+.card img{position:absolute;right:18px;bottom:12px;width:150px;height:150px;object-fit:contain;filter:drop-shadow(0 14px 14px rgba(60,44,28,.2));transition:transform .3s ease}
+a.card:hover img{transform:rotate(-6deg) scale(1.05)}
+.card.warm{background:linear-gradient(125deg,#f4e7d3,#fffcf6 70%)}
+footer{margin-top:40px;font-size:13px;color:#9a8977;line-height:1.8}
+@media (max-width:760px){.cards{grid-template-columns:1fr}a.card{min-height:260px;padding-right:150px}.card img{width:120px;height:120px}.card h2{font-size:30px}}
+@media (prefers-reduced-motion:reduce){a.card,.card img{transition:none}}
+</style>
 </head>
-<body class="focus-edition">
-  <header class="site-header"><a class="brand" href="#home"><span class="brand-symbol" aria-hidden="true">✳</span> 戏伴</a><nav aria-label="主导航"><a href="#star">明星</a><a href="#assistant">助理</a><a href="#team">团队</a><a class="enter-link" href="./tonggaoben/">进入工作台</a></nav></header>
-  <main>
-    <section class="hero section-wrap" id="home" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span></span> 演员与团队的 AI 工作台</p>
-        <h1 id="hero-title">戏伴<span class="title-dot">.</span></h1>
-        <p class="hero-heading">把戏演好，<br>把日子过好。</p>
-        <p class="hero-description">从接到剧本，到走完一部戏。<br>明星、助理和团队，<br class="mobile-break">在同一个工作台上接力。</p>
-        <a class="hero-enter" href="./tonggaoben/">进入戏伴工作台 <span aria-hidden="true">→</span></a>
-        <p class="hero-enter-note">选明星、助理或团队身份试用 · 示例数据，无需密码</p>
-      </div>
-      <div class="hero-art">
-        <div class="speech-bubble"><span>戏里认真准备，<br>戏外也照顾好自己。</span><span class="cursor" aria-hidden="true">▪</span></div>
-        <div class="cat-stage"><video id="hero-cat" src="./xiban/assets/nomi-cat.webm" autoplay loop muted playsinline preload="auto" aria-label="猫咪摆尾、跳跃、挥爪与转身的动画"></video></div>
-      </div>
-    </section>
-
-    <section class="cat-gallery" aria-label="猫咪主题画廊">
-      <div class="gallery-track gallery-top" aria-hidden="true">
-        <div class="gallery-tile wide paper"><img src="./xiban/assets/cat-lounge.png" alt="" loading="lazy"></div><div class="gallery-tile"><img src="./xiban/assets/cat-bowl.png" alt="" loading="lazy"></div><div class="gallery-tile wide gray"><img src="./xiban/assets/cat-guide.png" alt="" loading="lazy"></div><div class="gallery-tile paper"><img src="./xiban/assets/cat-toys.png" alt="" loading="lazy"></div>
-      </div>
-      <div class="gallery-track gallery-bottom" aria-hidden="true">
-        <div class="gallery-tile"><img src="./xiban/assets/cat-treats.png" alt="" loading="lazy"></div><div class="gallery-tile wide gray"><img src="./xiban/assets/cat-toys.png" alt="" loading="lazy"></div><div class="gallery-tile paper"><img src="./xiban/assets/cat-bowl.png" alt="" loading="lazy"></div><div class="gallery-tile wide"><img src="./xiban/assets/cat-lounge.png" alt="" loading="lazy"></div>
-      </div>
-    </section>
-    <section class="cat-about" id="how-to" aria-labelledby="about-title">
-      <img class="floating-prop prop-bowl" src="./xiban/assets/cat-bowl.png" alt="" data-drift="-28" data-turn="-9" loading="lazy">
-      <img class="floating-prop prop-toys" src="./xiban/assets/cat-toys.png" alt="" data-drift="34" data-turn="12" loading="lazy">
-      <img class="floating-prop prop-cat" src="./xiban/assets/cat-lounge.png" alt="" data-drift="42" data-turn="-6" loading="lazy">
-      <img class="floating-prop prop-treats" src="./xiban/assets/cat-treats.png" alt="" data-drift="-38" data-turn="8" loading="lazy">
-      <div class="about-copy">
-        <div class="about-intro"><h2 class="metal-title scroll-title" id="about-title">一个工作台，<br>三种身份。</h2><p class="word-reveal">明星专心演戏，<br>助理安排好每一天，<br>团队接得住事、看得远。</p></div>
-        <nav class="role-portal" aria-label="三种身份"><a class="role-entry" href="#star"><img class="role-entry-cat" src="./xiban/assets/cat-lounge.png" alt="" loading="lazy"><span><strong>明星</strong><span>剧本 · 预演 · 状态</span></span></a><a class="role-entry" href="#assistant"><img class="role-entry-cat" src="./xiban/assets/cat-guide.png" alt="" loading="lazy"><span><strong>助理</strong><span>日程 · 通告 · 出行</span></span></a><a class="role-entry" href="#team"><img class="role-entry-cat" src="./xiban/assets/cat-toys.png" alt="" loading="lazy"><span><strong>团队</strong><span>协作 · 粉丝 · 商务</span></span></a></nav>
-      </div>
-    </section>
-    <section class="project-chapter" id="features" aria-label="三种身份的功能讲解"><div class="chapter-inner">
-      <div id="walkthrough"></div>
-      <section class="closing-principles" aria-label="两项核心原则"><div><h3>AI给建议，人做决定。</h3><p>重要回复、合作和表演方案，最后由本人和团队确认。</p></div><div><h3>这一次的成果，下一次继续用。</h3><p>分析、方案与复盘收进资料夹，交接和复用都有依据。</p></div></section>
-      <noscript><p>请启用浏览器的 JavaScript，查看重点功能讲解。</p></noscript>
-    </div></section>
-  </main>
-  <footer class="journey-footer"><div class="chapter-inner"><div><p class="closing-brand">戏伴</p><p class="closing-line">一起，把下一部戏<br>准备得更从容。</p><p class="closing-support">希望获得团队试用、研发与行业合作支持。</p><a class="footer-enter" href="./tonggaoben/">进入戏伴工作台 →</a></div><img src="./xiban/assets/cat-lounge.png" alt="" loading="lazy"></div></footer>
-</body></html>
+<body>
+<main>
+  <div class="brand"><span>戏</span>戏伴</div>
+  <p class="eyebrow">两个板块</p>
+  <h1>戏伴，<br>选一个板块进入</h1>
+  <p class="lead">想动手试，就进工作台；想了解产品思路，就看提案。</p>
+  <div class="cards">
+    <a class="card warm" href="./tonggaoben/"><i>板块 01 · 试用</i><h2>戏伴工作台</h2><p>选明星、助理或团队身份进入，试用拍戏准备八站、事业与生活各板块，以及 AI 帮你添加、起草的效果。</p><em>进入工作台 →</em><img src="tonggaoben/cats/cat-lounge.png" alt=""></a>
+    <a class="card" href="./xiban/"><i>板块 02 · 提案</i><h2>戏伴提案</h2><p>一个工作台，三种身份。讲明星、助理和团队各自的难处，以及每个功能怎样接力。</p><em>查看提案 →</em><img src="tonggaoben/cats/cat-toys.png" alt=""></a>
+  </div>
+  <footer>演示版中的项目、人物与数据均为虚构示例，你填写的内容只保存在自己的浏览器里；AI 结果为预置示例，没有调用真实模型。</footer>
+</main>
+</body>
+</html>
