@@ -4,3 +4,7 @@
 - `/xiban/`：戏伴提案页。
 
 照片来自 Unsplash（Unsplash License）；字体为思源宋体、思源黑体、Instrument Serif 与 Silkscreen（SIL Open Font License）。
+
+## Public data boundary
+
+The public workbench now shows an empty structure. Owner projects, scripts, schedules, contacts and team records are not bundled. The former seeded runtime was removed from the public head. The Xiban product proposal remains a separate explanation of the product.
